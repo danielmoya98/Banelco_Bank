@@ -1,0 +1,385 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:uc="clr-namespace:Sales_Dashboard.UserControls"
+        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="Sales_Dashboard.MainWindow"
+        WindowStartupLocation="CenterScreen" Background="Transparent"
+        WindowStyle="None" AllowsTransparency="True" Height="780" Width="1280">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+
+        <Style TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Viewbox>
+                            <Border x:Name="Border" CornerRadius="10"
+                            Background="#FED6CE"
+                            Width="40" Height="20">
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="0.5" Direction="0" Opacity="0.3" />
+                                </Border.Effect>
+                                <Ellipse x:Name="Ellipse"  Stretch="Uniform"
+                                 Margin="2 1 2 1"
+                                 Stroke="Gray" StrokeThickness="0.2"
+                                 HorizontalAlignment="Stretch">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="C:\Users\Daniel Moya\Downloads\Sales-Dashboard-WPF-master\Sales-Dashboard-WPF-master\Images\icons8-luna-96.png"></ImageBrush>
+                                    </Ellipse.Fill>
+                                    <Ellipse.Effect>
+                                        <DropShadowEffect BlurRadius="10" ShadowDepth="1" Opacity="0.3" Direction="260" />
+                                    </Ellipse.Effect>
+                                </Ellipse>
+                            </Border >
+                        </Viewbox>
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="Checked" >
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Border"
+                                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                    To="#FF4CD661"
+                                                    Duration="0:0:0.1" />
+                                        <ThicknessAnimation Storyboard.TargetName="Ellipse"
+                                                        Storyboard.TargetProperty="Margin"
+                                                        To="20 1 2 1"
+                                                        Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Unchecked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Border"
+                                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                    To="White"
+                                                    Duration="0:0:0.1" />
+                                        <ThicknessAnimation Storyboard.TargetName="Ellipse"
+                                                        Storyboard.TargetProperty="Margin"
+                                                        To="2 1 2 1"
+                                                        Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
+    </Window.Resources>
+
+    <Border  x:Name="bordermain" Background="WhiteSmoke" CornerRadius="25" Padding="20" MouseDown="Border_MouseDown" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="260"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="120"/>
+                <RowDefinition Height="130"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--Menu-->
+            <Border  x:Name="panel" Grid.RowSpan="3" CornerRadius="25">
+                <Border.Background>
+                    <LinearGradientBrush>
+                        <GradientStop Color="#FB7154" Offset="0"/>
+                        <GradientStop Color="#FB6161" Offset="0.8"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+
+                <StackPanel>
+                    <!--Logo-->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 30 0 10">
+
+                        <Grid>
+                            <Border Background="#ffffff" CornerRadius="50" Width="35" Height="35"/>
+
+                            <Border Width="35" Height="35" BorderThickness="3" BorderBrush="#ffffff" CornerRadius="50">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="10" Opacity="0.3"/>
+                                </Border.Effect>
+
+                                <Icon:PackIconMaterial Kind="Bank" Width="15" Height="15" Foreground="#FB7154" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                            </Border>
+                        </Grid>
+
+                        <TextBlock Text="BANELCO" Foreground="#ffffff" FontSize="30" Margin="10 0 0 3">
+                            <TextBlock.Effect>
+                                <DropShadowEffect BlurRadius="10" Opacity="0.3"/>
+                            </TextBlock.Effect>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <!--Menu Items-->
+                    <TextBlock Text="TIPOS DE FICHA" Style="{StaticResource menuTitle}"/>
+
+
+                    <Button x:Name="boton4" Style="{StaticResource menuButton}" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal">
+                            <Icon:PackIconMaterial Kind="ClipboardTextPlayOutline" Style="{StaticResource menuButtonIcon}"/>
+                            <TextBlock Text="Comun" Style="{StaticResource menuButtonText}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="boton5" Style="{StaticResource menuButton}" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal">
+                            <Icon:PackIconMaterial Kind="ClipboardFileOutline" Style="{StaticResource menuButtonIcon}"/>
+                            <TextBlock Text="Preferencial" Style="{StaticResource menuButtonText}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="boton6" Style="{StaticResource menuButton}" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal">
+                            <Icon:PackIconMaterial Kind="AccountCheckOutline" Style="{StaticResource menuButtonIcon}"/>
+                            <TextBlock Text="Vip" Style="{StaticResource menuButtonText}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{StaticResource menuButton}"  Click="Button_Click">
+                        <StackPanel Orientation="Horizontal" >
+                            <Icon:PackIconMaterial Kind="BankPlus" Style="{StaticResource menuButtonIcon}"/>
+                            <TextBlock Text="Caja" Style="{StaticResource menuButtonText}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="boton1" Style="{StaticResource menuButton}" Visibility="Collapsed" Click="boton1_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Icon:PackIconMaterial Kind="FaceAgent" Style="{StaticResource menuButtonIcon}"/>
+                            <TextBlock Text="Normal" Style="{StaticResource menuButtonText}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="boton2" Style="{StaticResource menuButton}" Visibility="Collapsed" Click="boton2_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Icon:PackIconMaterial Kind="FaceAgent" Style="{StaticResource menuButtonIcon}"/>
+                            <TextBlock Text="Preferencial" Style="{StaticResource menuButtonText}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="boton3" Style="{StaticResource menuButton}" Visibility="Collapsed" Click="boton3_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Icon:PackIconMaterial Kind="FaceAgent" Style="{StaticResource menuButtonIcon}"/>
+                            <TextBlock Text="Servicio Rapido" Style="{StaticResource menuButtonText}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{StaticResource menuButton}" Visibility="Collapsed" >
+                        <StackPanel Orientation="Horizontal">
+                            <Icon:PackIconMaterial Kind="PhonePausedOutline" Style="{StaticResource menuButtonIcon}"/>
+                            <TextBlock Text="Vip" Style="{StaticResource menuButtonText}"/>
+                        </StackPanel>
+                    </Button>
+
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="148">
+                        <ToggleButton x:Name="miToggleButton" Height="25"  Width="25" Checked="miToggleButton_Checked_1" Unchecked="miToggleButton_Unchecked"  >
+                        </ToggleButton>
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="Modo Oscuro" Style="{StaticResource menuButtonText}" Foreground="#FED6CE" Margin="15 0 0 0"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="148" Margin="0 15">
+                        <ToggleButton x:Name="miToggleButton2" Height="26"  Width="26" Checked="miToggleButton2_Checked" Unchecked="miToggleButton2_Unchecked"   />
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="Musica" Style="{StaticResource menuButtonText}" Foreground="#FED6CE" Margin="15 0 0 0"/>
+                    </StackPanel>
+
+                    <Button x:Name="salir" Style="{StaticResource menuButton}" Margin="15 400" Click="salir_Click_1" >
+                        <StackPanel Orientation="Horizontal" >
+                            <Icon:PackIconMaterial Kind="CloseCircle" Style="{StaticResource menuButtonIcon}"/>
+                            <TextBlock Text="Salir" Style="{StaticResource menuButtonText}"/>
+                        </StackPanel>
+                    </Button>
+
+                </StackPanel>
+            </Border>
+            <MediaElement x:Name="myMediaElement"  LoadedBehavior="Manual"/>
+            <!--Search-->
+            <Border Grid.Column="1" Style="{StaticResource whiteBorder}"  Margin="20 0 20 20">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <Border Width="50" Height="50" CornerRadius="10" Margin="5 0 20 0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                    <GradientStop Color="#FB7456" Offset="0"/>
+                                    <GradientStop Color="#FA5654" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+
+                            <Image Stretch="Uniform"  Source="C:\Users\Daniel Moya\Downloads\Sales-Dashboard-WPF-master\Sales-Dashboard-WPF-master\Images\u2.png" Width="40" Height="40"/>
+                        </Border>
+
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Name="fecha" Style="{StaticResource titleText}" FontSize="26" FontWeight="Bold" Text="BIENVENIDO DANIEL MOYA"></TextBlock>
+                            <TextBlock x:Name="hora" Foreground="#6C879A" Margin="0 3 0 0"></TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!--Search Textbox-->
+
+                </Grid>
+            </Border>
+
+            <!--Info Cards-->
+            <Grid Grid.Column="1" Grid.Row="1" Margin="20,0,10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Style="{StaticResource whiteBorder}" Grid.ColumnSpan="2" Margin="0,0,5,0" >
+                    <MediaElement Name="ReproductorDePrueba" LoadedBehavior="Manual" Stretch="Fill" Margin="-7,-19,-5,-19"   ></MediaElement>
+                </Border>
+
+                <uc:InfoCard Grid.Column="2" Title="Divisas" SubTitle="Dolar a 6.97" Amount="7" Image="/Images/return.png" />
+            </Grid>
+
+            <!--Main Chart-->
+            <Border Grid.Column="1" Grid.Row="2" Style="{StaticResource whiteBorder}" Margin="20 20 20 0">
+                <Grid Margin="10 5">
+                    <!--Title-->
+                    <TextBlock Text="Fichas" Style="{StaticResource titleText}"/>
+
+                    <!--Legends-->
+                    <uc:Legends HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,8,181,0" />
+
+                    <Button x:Name="reiniciar" Style="{StaticResource menuButton}" HorizontalAlignment="Right" Background="#F7F6F4" Foreground="#FB7657"  Width="145" Height="NaN" Margin="0,4,7,389" Click="reiniciar_Click"  >
+                        <StackPanel Orientation="Horizontal">
+                            <Icon:PackIconMaterial Kind="React" Style="{StaticResource menuButtonIcon}"/>
+                            <TextBlock  Text="Reiniciar" Style="{StaticResource menuButtonText}" Width="65"/>
+                        </StackPanel>
+                    </Button>
+
+                    <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" Margin="5,40,0,23"  ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="membersDataGrid" Style="{DynamicResource DataGridStyle1}">
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="#" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding Number}"/>
+                            <DataGridTemplateColumn Header="Numero" IsReadOnly="True" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Tipo de cliente" Binding="{Binding Position}" IsReadOnly="True" Width="*"/>
+                            <DataGridTextColumn Header="Email Address" Binding="{Binding Email}" IsReadOnly="True" Width="*"/>
+                            <DataGridTextColumn Header="Phone Number" Binding="{Binding Phone}" IsReadOnly="True" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!--Note Text-->
+                    <Grid VerticalAlignment="Bottom" Margin="10 0">
+                        <Icon:PackIconMaterial Kind="Information" Foreground="#F96654"/>
+                        <TextBlock TextWrapping="Wrap" Margin="30 0 0 0" LineHeight="18" Foreground="{StaticResource GreyColor}"
+                                   Text="Revise su dinero antes de abandonar el banco , no se aceptan recalomos de ningun tipo . Gracias"/>
+                    </Grid>
+                    <TextBlock Foreground="White" Name="atender" Text="0" Margin="0,7,242,397" TextWrapping="Wrap" HorizontalAlignment="Right" Width="6"/>
+                    <TextBlock Foreground="White" Name="atendidos" Text="0" HorizontalAlignment="Right" Margin="0,7,343,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+
+                </Grid>
+            </Border>
+
+            <!--Right Section-->
+            <Grid Grid.Column="2" Grid.RowSpan="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!--Sales List-->
+                <Border Style="{StaticResource whiteBorder}" Height="205" Grid.RowSpan="2" VerticalAlignment="Top">
+                    <StackPanel>
+                        <TextBlock Text="Caja" Style="{StaticResource titleText}"/>
+                        <Button x:Name="prueba"  Style="{StaticResource menuButton}" Width="162" HorizontalAlignment="Right" Background="#F7F6F4" Foreground="#FB7657"   Height="29" Click="prueba_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="HandBackRight" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Atender" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="desabilitar" Style="{StaticResource menuButton}" HorizontalAlignment="Right" Background="#F7F6F4" Foreground="#FB7657"  Width="162" Height="29" Click="desabilitar_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="BlockHelper" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock x:Name="desabilitartxt" Text="Desabilitar" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </Button>
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden" x:Name="caja1" >
+                            <WrapPanel  x:Name="hola" Height="80" />
+                        </ScrollViewer>
+                    </StackPanel>
+
+                </Border>
+                <Border Style="{StaticResource whiteBorder}" Grid.Row="1" Height="109" VerticalAlignment="Bottom">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource titleText}" Height="23"><Run Language="es-es" Text="Informacion"/></TextBlock>
+                        <TextBlock Text="Comuniquese con el Banco" TextWrapping="Wrap" Margin="0 10 0 0" Style="{StaticResource secondaryText}"/>
+                        <TextBlock Text="Llame al numero : +591 63063849" TextWrapping="Wrap" Style="{StaticResource secondaryText}"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource whiteBorder}" Height="205" Grid.RowSpan="2" VerticalAlignment="Top" Margin="0,210,0,0">
+                    <StackPanel>
+                        <TextBlock Text="Caja" Style="{StaticResource titleText}"/>
+                        <Button x:Name="prueba1" Style="{StaticResource menuButton}" HorizontalAlignment="Right" Background="#F7F6F4" Foreground="#FB7657"  Width="162" Height="29" Click="prueba2_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="HandBackRight" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Atender" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="desabilitar1" Style="{StaticResource menuButton}" HorizontalAlignment="Right" Background="#F7F6F4" Foreground="#FB7657"  Width="162" Height="29" Click="desabilitar1_Click" >
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="BlockHelper" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock x:Name="dasabilitar12" Text="Desabilitar" Style="{StaticResource menuButtonText}" Width="65"/>
+                            </StackPanel>
+                        </Button>
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden" x:Name="caja2" >
+                            <WrapPanel x:Name="hola1" Height="80" >
+
+                            </WrapPanel>
+                        </ScrollViewer>
+                        <Button x:Name="desabilitar1_Copy" Style="{StaticResource menuButton}" Background="#F7F6F4" Foreground="#FB7657"  Width="162" Height="29" Click="prueba_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="BlockHelper" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Desabilitar" Style="{StaticResource menuButtonText}" Width="65"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                </Border>
+                <Border Style="{StaticResource whiteBorder}" Grid.RowSpan="2" Margin="0,420,0,114">
+                    <StackPanel>
+                        <TextBlock Text="Caja" Style="{StaticResource titleText}"/>
+                        <Button x:Name="prueba2" Style="{StaticResource menuButton}" HorizontalAlignment="Right" Background="#F7F6F4" Foreground="#FB7657"  Width="162" Height="29" Click="prueba3_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="HandBackRight" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Atender" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource menuButton}" HorizontalAlignment="Right" Background="#F7F6F4" Foreground="#FB7657"  Width="162" Height="29" Click="desabilitar2_Click" >
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="BlockHelper" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock x:Name="desabilitar123" Text="Desabilitar" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </Button>
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden" x:Name="caja3" >
+                            <WrapPanel x:Name="hola2" Height="80" />
+                        </ScrollViewer>
+                    </StackPanel>
+
+                </Border>
+            </Grid>
+
+        </Grid>
+    </Border>
+</Window>
